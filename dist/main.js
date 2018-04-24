@@ -98,19 +98,22 @@ class scrollShadow extends HTMLElement {
       <style>
         :host{
           display: block;
+          position: relative;
         }
 
         .shadow{
           content: "";
           position: fixed;
+          left: 50%;
           width: 100%;
           height: 24px;
           box-shadow: inset 0 0px 12px -12px black;
+          transform: translateX(-50%);
           transition: box-shadow .3s ease-out;
           pointer-events: none;
         }
 
-        .shadow.scrolled::before{
+        .shadow{
           box-shadow: inset 0 12px 24px -12px black;
         }
 
@@ -126,23 +129,29 @@ class scrollShadow extends HTMLElement {
       <div class="shadow"></div>
       <slot></slot>
     `
-    const sentinel = document.createElement('div')
-    sentinel.className = 'sentinel'
+    this.sentinel = document.createElement('div')
+    this.sentinel.className = 'sentinel'
 
     const shadowRoot = this.attachShadow({mode: 'open'})
-    shadowRoot.appendChild(sentinel)
     shadowRoot.appendChild(template.content.cloneNode(true));
 
-    //const intersectObs = new IntersectionObserver(this.intersectHandler, {root: shadowRoot})
-    //intersectObs.observe(sentinel)
   }
 
   intersectHandler(e){
+    console.log('intersectionHandler')
+    return
+    console.log(e.target)
     if(e[0].isIntersecting){
-      e[0].target.parentNode.classList.remove('scrolled')
+      this.classList.remove('scrolled')
     }else{
-      e[0].target.parentNode.classList.add('scrolled')
+      this.classList.add('scrolled')
     }
+  }
+
+  connectedCallback() {
+    const intersectObs = new IntersectionObserver(this.intersectHandler, {root: this})
+    console.log(this)
+    intersectObs.observe(this.sentinel)
   }
 }
 
@@ -170,7 +179,7 @@ var options = {"hmr":true}
 options.transform = transform
 options.insertInto = undefined;
 
-var update = __webpack_require__(5)(content, options);
+var update = __webpack_require__(6)(content, options);
 
 if(content.locals) module.exports = content.locals;
 
@@ -180,18 +189,19 @@ if(false) {}
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(false);
+exports = module.exports = __webpack_require__(5)(false);
 // imports
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Oswald|Roboto);", ""]);
 
 // module
-exports.push([module.i, "*{\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\nhtml{\r\n  overflow-x: hidden;\r\n  scroll-behavior: smooth;\r\n}\r\n\r\nbody{\r\n  font: normal 14px/1.4 'Roboto', sans-serif;\r\n  color: white;\r\n  background: linear-gradient(135deg, #f3eae1, #94301d, #290700);\r\n}\r\n\r\nheader,\r\nmain{\r\n  max-width: 1000px;\r\n  margin: auto;\r\n  padding: 24px;\r\n}\r\n\r\nheader::before,\r\nmain::before{\r\n  content: \"\";\r\n  position: absolute;\r\n  width: 100vw;\r\n  height: 100%;\r\n  top: 0;\r\n  left: calc(-50vw + 50%);\r\n  z-index: -1;\r\n}\r\n\r\nheader{\r\n  position: -webkit-sticky;\r\n  position: sticky;\r\n  top: 0;\r\n  height: 180px;\r\n  display: flex;\r\n  align-items: flex-end;\r\n}\r\n\r\nheader nav{\r\n  flex: 1;\r\n  text-align: right;\r\n}\r\n\r\nmain{\r\n  position: relative;\r\n  z-index: 1;\r\n}\r\n\r\nmain::before{\r\n  background: white;\r\n  box-shadow: 0 -8px 8px -8px black;\r\n}\r\n\r\nmain img{\r\n  width: 100%;\r\n}\r\n\r\nh1{\r\n  font: normal 30px/1.2 'Oswald', sans-serif;\r\n  padding: 24px 0;\r\n}\r\n\r\np{\r\n  text-align: justify;\r\n  color: gray;\r\n  padding: 12px 0;\r\n}\r\n\r\na{\r\n  color: #efe8df;\r\n  text-decoration: none;\r\n  padding: 6px 12px;\r\n  white-space: nowrap;\r\n}\r\n", ""]);
+exports.push([module.i, "*{\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\nhtml{\r\n  overflow-x: hidden;\r\n  scroll-behavior: smooth;\r\n}\r\n\r\nbody{\r\n  font: normal 14px/1.4 'Roboto', sans-serif;\r\n  color: gray;\r\n}\r\n\r\nheader,\r\nmain{\r\n  max-width: 1000px;\r\n  margin: auto;\r\n  padding: 0 24px;\r\n}\r\n\r\nheader::before,\r\nmain::before{\r\n  content: \"\";\r\n  position: absolute;\r\n  width: 100vw;\r\n  height: 100%;\r\n  top: 0;\r\n  left: calc(-50vw + 50%);\r\n  background: linear-gradient(90deg, #efebe5, #bdb8aa);\r\n  z-index: -1;\r\n}\r\n\r\nheader{\r\n  position: -webkit-sticky;\r\n  position: sticky;\r\n  top: 0;\r\n  display: flex;\r\n  align-items: flex-end;\r\n  z-index: 1;\r\n}\r\n\r\nheader nav{\r\n  flex: 1;\r\n  text-align: right;\r\n}\r\n\r\nmain{\r\n  position: relative;\r\n}\r\n\r\nmain img{\r\n  width: 100%;\r\n}\r\n\r\nh1{\r\n  font: normal 30px/1.2 'Oswald', sans-serif;\r\n  padding: 24px 0;\r\n}\r\n\r\np{\r\n  text-align: justify;\r\n  color: gray;\r\n  padding: 12px 0;\r\n}\r\n\r\na{\r\n  color: #efe8df;\r\n  text-decoration: none;\r\n  padding: 6px 12px;\r\n  white-space: nowrap;\r\n}\r\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 4 */
+/* 4 */,
+/* 5 */
 /***/ (function(module, exports) {
 
 /*
@@ -273,7 +283,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -339,7 +349,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(6);
+var	fixUrls = __webpack_require__(7);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -659,7 +669,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 
