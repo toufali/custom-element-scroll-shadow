@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald|Roboto');
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html{
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body{
+  font: normal 14px/1.4 'Roboto', sans-serif;
+  color: white;
+  background: linear-gradient(135deg, #f3eae1, #94301d, #290700);
+}
+
+header,
+main{
+  max-width: 1000px;
+  margin: auto;
+  padding: 24px;
+}
+
+header::before,
+main::before{
+  content: "";
+  position: absolute;
+  width: 100vw;
+  height: 100%;
+  top: 0;
+  left: calc(-50vw + 50%);
+  z-index: -1;
+}
+
+header{
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  height: 180px;
+  display: flex;
+  align-items: flex-end;
+}
+
+header nav{
+  flex: 1;
+  text-align: right;
+}
+
+main{
+  position: relative;
+  z-index: 1;
+}
+
+main::before{
+  background: white;
+  box-shadow: 0 -8px 8px -8px black;
+}
+
+main img{
+  width: 100%;
+}
+
+h1{
+  font: normal 30px/1.2 'Oswald', sans-serif;
+  padding: 24px 0;
+}
+
+p{
+  text-align: justify;
+  color: gray;
+  padding: 12px 0;
+}
+
+a{
+  color: #efe8df;
+  text-decoration: none;
+  padding: 6px 12px;
+  white-space: nowrap;
+}
