@@ -7,8 +7,7 @@ https://handsomemedia.github.io/custom-element-scroll-shadow/dist
 ### Notes
 - uses _Web Components_: Custom Elements, Shadow DOM, and Template
 - self-contained HTML, CSS, and JS 
-- uses native Intersection Observer API which is more performant than listening to scroll event
-- HTML Template is well supported by all browsers
+- uses native Intersection Observer API - more performant than listening to scroll event
 - Custom Elements and Shadow DOM currently need polyfill Firefox and Edge (not implemented here)
 - Intersection Observer currently requires polyfill for Safari (not implemented here)
 
