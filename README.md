@@ -1,11 +1,11 @@
 # Custom Element: Content Scroll Shadow
-dynamically creates visual separation of fixed header upon scroll
+Creates visual separation between fixed header and content upon scroll
 
 ### Demo
 https://handsomemedia.github.io/custom-element-scroll-shadow/dist
 
 ### Notes
-- uses Web Components: Custom Elements, Shadow DOM, and Template
+- uses *Web Components*: Custom Elements, Shadow DOM, and Template
 - self-contained HTML, CSS, and JS 
 - uses native Intersection Observer API which is more performant than listening to scroll event
 - HTML Template is well supported by all browsers
