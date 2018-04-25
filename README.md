@@ -1,4 +1,5 @@
-# Custom Element: Content Scroll Shadow, allowing visual separation of fixed header
+# Custom Element: Content Scroll Shadow
+dynamically creates visual separation of fixed header upon scroll
 
 ### Demo
 https://handsomemedia.github.io/custom-element-scroll-shadow/dist
