@@ -75,9 +75,9 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _scroll_shadow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _main_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-/* harmony import */ var _main_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_main_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _main_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _main_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_main_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _scroll_shadow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 
 
 
@@ -92,66 +92,56 @@ class scrollShadow extends HTMLElement {
   constructor(){
     super()
 
-    console.log('hi there')
+    const shadowRoot = this.attachShadow({mode: 'open'})
     const template = document.createElement('template')
+
+    this.shadow = document.createElement('div')
+    this.shadow.className = 'shadow'
+
+    this.sentinel = document.createElement('div')
+    this.sentinel.className = 'sentinel'
+
     template.innerHTML = `
       <style>
         :host{
           display: block;
           position: relative;
         }
-
         .shadow{
-          content: "";
           position: fixed;
-          left: 50%;
+          left: 0;
           width: 100%;
           height: 24px;
-          box-shadow: inset 0 0px 12px -12px black;
-          transform: translateX(-50%);
-          transition: box-shadow .3s ease-out;
+          box-shadow: inset 0 0 0 #333;
+          transition: box-shadow .25s ease-out;
           pointer-events: none;
         }
-
-        .shadow{
-          box-shadow: inset 0 12px 24px -12px black;
+        .shadow[data-visible="true"]{
+          box-shadow: inset 0 12px 12px -12px #333;
+          transition-duration: .5s;
         }
-
         .sentinel{
           visibility: hidden;
           position: absolute;
           top: 0;
-          width: 100px;
+          width: 1px;
           height: 1px;
-          background: red;
         }
       </style>
-      <div class="shadow"></div>
       <slot></slot>
     `
-    this.sentinel = document.createElement('div')
-    this.sentinel.className = 'sentinel'
-
-    const shadowRoot = this.attachShadow({mode: 'open'})
+    shadowRoot.appendChild(this.shadow)
+    shadowRoot.appendChild(this.sentinel)
     shadowRoot.appendChild(template.content.cloneNode(true));
-
-  }
-
-  intersectHandler(e){
-    console.log('intersectionHandler')
-    return
-    console.log(e.target)
-    if(e[0].isIntersecting){
-      this.classList.remove('scrolled')
-    }else{
-      this.classList.add('scrolled')
-    }
   }
 
   connectedCallback() {
-    const intersectObs = new IntersectionObserver(this.intersectHandler, {root: this})
-    console.log(this)
+    const intersectObs = new IntersectionObserver(this.intersectHandler.bind(this), {rootMargin: `${-this.offsetTop}px 0px 0px 0px`})
     intersectObs.observe(this.sentinel)
+  }
+
+  intersectHandler(e){
+    this.shadow.dataset.visible = !e[0].isIntersecting
   }
 }
 
@@ -194,7 +184,7 @@ exports = module.exports = __webpack_require__(5)(false);
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Oswald|Roboto);", ""]);
 
 // module
-exports.push([module.i, "*{\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\nhtml{\r\n  overflow-x: hidden;\r\n  scroll-behavior: smooth;\r\n}\r\n\r\nbody{\r\n  font: normal 14px/1.4 'Roboto', sans-serif;\r\n  color: gray;\r\n}\r\n\r\nheader,\r\nmain{\r\n  max-width: 1000px;\r\n  margin: auto;\r\n  padding: 0 24px;\r\n}\r\n\r\nheader::before,\r\nmain::before{\r\n  content: \"\";\r\n  position: absolute;\r\n  width: 100vw;\r\n  height: 100%;\r\n  top: 0;\r\n  left: calc(-50vw + 50%);\r\n  background: linear-gradient(90deg, #efebe5, #bdb8aa);\r\n  z-index: -1;\r\n}\r\n\r\nheader{\r\n  position: -webkit-sticky;\r\n  position: sticky;\r\n  top: 0;\r\n  display: flex;\r\n  align-items: flex-end;\r\n  z-index: 1;\r\n}\r\n\r\nheader nav{\r\n  flex: 1;\r\n  text-align: right;\r\n}\r\n\r\nmain{\r\n  position: relative;\r\n}\r\n\r\nmain img{\r\n  width: 100%;\r\n}\r\n\r\nh1{\r\n  font: normal 30px/1.2 'Oswald', sans-serif;\r\n  padding: 24px 0;\r\n}\r\n\r\np{\r\n  text-align: justify;\r\n  color: gray;\r\n  padding: 12px 0;\r\n}\r\n\r\na{\r\n  color: #efe8df;\r\n  text-decoration: none;\r\n  padding: 6px 12px;\r\n  white-space: nowrap;\r\n}\r\n", ""]);
+exports.push([module.i, "*{\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\nhtml{\r\n  overflow-x: hidden;\r\n  scroll-behavior: smooth;\r\n}\r\n\r\nbody{\r\n  font: normal 14px/1.4 'Roboto', sans-serif;\r\n  color: gray;\r\n  background: linear-gradient(90deg, #dcd7d1, #b5b0a3);\r\n}\r\n\r\nheader,\r\nscroll-shadow{\r\n  max-width: 1000px;\r\n  margin: auto;\r\n  padding: 0 24px;\r\n}\r\n\r\nheader::before{\r\n  content: \"\";\r\n  position: absolute;\r\n  width: 100vw;\r\n  height: 100%;\r\n  top: 0;\r\n  left: calc(-50vw + 50%);\r\n  background: linear-gradient(90deg, #dcd7d1, #b5b0a3);\r\n  z-index: -1;\r\n}\r\n\r\nheader{\r\n  position: -webkit-sticky;\r\n  position: sticky;\r\n  top: 0;\r\n  height: 100px;\r\n  padding: 24px;\r\n  display: flex;\r\n  align-items: flex-end;\r\n  z-index: 1;\r\n}\r\n\r\nheader nav{\r\n  flex: 1;\r\n  text-align: right;\r\n}\r\n\r\nscroll-shadow :first-child{\r\n  padding-top: 24px;\r\n}\r\n\r\nscroll-shadow img{\r\n  width: 100%;\r\n}\r\n\r\nh1{\r\n  font: normal 30px/1.2 'Oswald', sans-serif;\r\n  padding: 24px 0;\r\n}\r\n\r\np{\r\n  text-align: justify;\r\n  color: gray;\r\n  padding: 12px 0;\r\n}\r\n\r\na{\r\n  color: dimgray;\r\n  font-weight: bold;\r\n  text-decoration: none;\r\n  padding: 6px 12px;\r\n  white-space: nowrap;\r\n}\r\n", ""]);
 
 // exports
 

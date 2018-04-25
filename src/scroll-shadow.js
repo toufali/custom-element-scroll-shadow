@@ -2,66 +2,56 @@ class scrollShadow extends HTMLElement {
   constructor(){
     super()
 
-    console.log('hi there')
+    const shadowRoot = this.attachShadow({mode: 'open'})
     const template = document.createElement('template')
+
+    this.shadow = document.createElement('div')
+    this.shadow.className = 'shadow'
+
+    this.sentinel = document.createElement('div')
+    this.sentinel.className = 'sentinel'
+
     template.innerHTML = `
       <style>
         :host{
           display: block;
           position: relative;
         }
-
         .shadow{
-          content: "";
           position: fixed;
-          left: 50%;
+          left: 0;
           width: 100%;
           height: 24px;
-          box-shadow: inset 0 0px 12px -12px black;
-          transform: translateX(-50%);
-          transition: box-shadow .3s ease-out;
+          box-shadow: inset 0 0 0 #333;
+          transition: box-shadow .25s ease-out;
           pointer-events: none;
         }
-
-        .shadow{
-          box-shadow: inset 0 12px 24px -12px black;
+        .shadow[data-visible="true"]{
+          box-shadow: inset 0 12px 12px -12px #333;
+          transition-duration: .5s;
         }
-
         .sentinel{
           visibility: hidden;
           position: absolute;
           top: 0;
-          width: 100px;
+          width: 1px;
           height: 1px;
-          background: red;
         }
       </style>
-      <div class="shadow"></div>
       <slot></slot>
     `
-    this.sentinel = document.createElement('div')
-    this.sentinel.className = 'sentinel'
-
-    const shadowRoot = this.attachShadow({mode: 'open'})
+    shadowRoot.appendChild(this.shadow)
+    shadowRoot.appendChild(this.sentinel)
     shadowRoot.appendChild(template.content.cloneNode(true));
-
-  }
-
-  intersectHandler(e){
-    console.log('intersectionHandler')
-    return
-    console.log(e.target)
-    if(e[0].isIntersecting){
-      this.classList.remove('scrolled')
-    }else{
-      this.classList.add('scrolled')
-    }
   }
 
   connectedCallback() {
-    const intersectObs = new IntersectionObserver(this.intersectHandler, {root: this})
-    console.log(this)
+    const intersectObs = new IntersectionObserver(this.intersectHandler.bind(this), {rootMargin: `${-this.offsetTop}px 0px 0px 0px`})
     intersectObs.observe(this.sentinel)
+  }
+
+  intersectHandler(e){
+    this.shadow.dataset.visible = !e[0].isIntersecting
   }
 }
 
