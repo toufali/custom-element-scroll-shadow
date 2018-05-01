@@ -9,7 +9,7 @@ https://handsomemedia.github.io/custom-element-scroll-shadow/dist
 - self-contained HTML, CSS, and JS 
 - uses native Intersection Observer API - more performant than listening to scroll event
 - Custom Elements and Shadow DOM currently need polyfill Firefox and Edge (not implemented here)
-- Intersection Observer currently requires polyfill for Safari (not implemented here)
+- Intersection Observer currently requires polyfill for Safari
 
 ### Links
 - https://medium.com/dev-channel/the-case-for-custom-elements-part-2-2efe42ce9133
